@@ -1,115 +1,305 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 void main() {
-  runApp(const MyApp());
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+    systemNavigationBarColor: Colors.white,
+    statusBarColor: Colors.transparent,
+  ));
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    title: "UI Challenges",
+    home: UI2(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class UI2 extends StatefulWidget {
+  const UI2({Key? key}) : super(key: key);
+  @override
+  _UI2State createState() => _UI2State();
+}
 
-  // This widget is the root of your application.
+class _UI2State extends State<UI2> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+    double whiteConHt = height * 0.1;
+    double sbxHt = height * 0.017;
+    double h1Font = MediaQuery.of(context).size.height * 0.05;
+    double h2Font = MediaQuery.of(context).size.height * 0.017;
+    double h3Font = MediaQuery.of(context).size.height * 0.02;
+    getContainer() {
+      return Column(
+        children: [
+          Container(
+            height: whiteConHt,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+                boxShadow: <BoxShadow>[
+                  BoxShadow(
+                    color: Colors.grey.shade200,
+                    offset: const Offset(
+                      5.0,
+                      5.0,
+                    ),
+                    blurRadius: 10.0,
+                    spreadRadius: 2.0,
+                  ),
+                ]),
+            padding: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Container(
+                  width: whiteConHt / 2,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 13,
+                      backgroundColor: Colors.black,
+                      child: CircleAvatar(
+                          radius: 10,
+                          backgroundColor: Colors.grey.shade300,
+                          child: Icon(
+                            Icons.play_arrow,
+                            size: 18,
+                            color: Colors.black,
+                          )),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text("Introduction",
+                        style: TextStyle(
+                            fontSize: h2Font + 5, fontWeight: FontWeight.bold)),
+                    Text("Variables allow user to hold..."),
+                  ],
+                )
+              ],
+            ),
+          ),
+          SizedBox(
+            height: height * 0.02,
+          )
+        ],
+      );
+    }
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
+      body: Stack(
+        children: [
+          ShaderMask(
+            blendMode: BlendMode.srcATop,
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(colors: [
+                Colors.purple,
+                Colors.purple,
+                Colors.transparent,
+              ], begin: Alignment.bottomCenter, end: Alignment.topCenter)
+                  .createShader(bounds);
+            },
+            child: Container(
+              height: height,
+              width: width,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    "assets/img2.jpg",
+                  ),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 30),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: height * 0.11),
+                  Text(
+                    "UX Designer from scratch",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: h1Font,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: h3Font),
+                  Text(
+                    "Basic guideline and tips and tricks for how to become a UX designer easily",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: h3Font),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: const [
+                          CircleAvatar(
+                            radius: 20,
+                            child: CircleAvatar(
+                              radius: 17,
+                              backgroundColor: Colors.yellow,
+                              backgroundImage: AssetImage(
+                                "assets/img3.jpg",
+                              ),
+                            ),
+                            backgroundColor: Colors.white,
+                          ),
+                          Text(" Author :",
+                              style: TextStyle(color: Colors.white)),
+                          Text(
+                            "Jenny",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("4.8 ",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold)),
+                          Icon(
+                            Icons.star,
+                            color: Colors.yellow,
+                          ),
+                          Text(
+                            " (20 Review)",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: height * 0.4,
+              ),
+              DefaultTabController(
+                length: 3,
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
+                        bottomLeft: Radius.zero,
+                        bottomRight: Radius.zero),
+                  ),
+                  child: TabBar(
+                    labelColor: Colors.black,
+                    indicatorSize: TabBarIndicatorSize.label,
+                    indicatorColor: Colors.black,
+                    unselectedLabelColor: Colors.grey,
+                    tabs: const [
+                      Tab(text: "PlayList"),
+                      Tab(text: "Review"),
+                      Tab(text: "Author"),
+                    ],
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  padding: EdgeInsets.only(left: 30, right: 30),
+                  color: Colors.white,
+                  child: ListView(
+                    padding: EdgeInsets.all(0),
+                    children: [
+                      Column(
+                        children: [
+                          Container(
+                            height: whiteConHt,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(15)),
+                                boxShadow: <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.grey.shade200,
+                                    offset: const Offset(
+                                      5.0,
+                                      5.0,
+                                    ),
+                                    blurRadius: 10.0,
+                                    spreadRadius: 2.0,
+                                  ),
+                                ]),
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: whiteConHt / 2,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  child: Center(
+                                    child: CircleAvatar(
+                                        radius: 13,
+                                        backgroundColor: Colors.teal.shade300,
+                                        child: Icon(
+                                          Icons.done,
+                                          size: 18,
+                                          color: Colors.grey.shade200,
+                                        )),
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text("Introduction",
+                                        style: TextStyle(
+                                            fontSize: h2Font + 5,
+                                            fontWeight: FontWeight.bold)),
+                                    Text("Variables allow user to hold..."),
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: height * 0.02,
+                          )
+                        ],
+                      ),
+                      getContainer(),
+                      getContainer(),
+                      getContainer(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          )
+        ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
